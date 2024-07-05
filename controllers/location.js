@@ -2,7 +2,7 @@ const LocationSchema = require("../models/location");
 
 const AddLocation = async (req, res) => {
   try {
-    console.log(req.body);
+    // console.log(req.body);
     const { error } = LocationSchema.validate(req.body);
 
     if (error) {
@@ -26,7 +26,7 @@ const AddLocation = async (req, res) => {
     // Respond with the saved location
     res.status(201).json(savedLocation);
 
-    console.log(req.body);
+    // console.log(req.body);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "An error occurred while fetching users" });
@@ -48,7 +48,7 @@ const GetLocations = async (req, res) => {
 
 const GetLocationById = async (req, res) => {
   try {
-    console.log(req.params.id);
+    // console.log(req.params.id);
     const location_id = req.params.id;
     const location = await LocationSchema.findById(location_id);
 

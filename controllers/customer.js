@@ -60,8 +60,8 @@ const getCustomerById = async (req, res) => {
   try {
     const customer_id = req.params.id;
     const customer = await CustomerSchema.findById(customer_id);
-    console.log(customer_id);
-    console.log(customer);
+    // console.log(customer_id);
+    // console.log(customer);
     if (!customer) {
       return res.status(404).json({ error: "Customer not found" });
     }
@@ -123,7 +123,7 @@ const deleteCustomerById = async (req, res) => {
 const SearchCustomer = async (req, res) => {
   try {
     const { customer_name } = req.query;
-    console.log(req.query);
+    // console.log(req.query);
 
     const query = {};
     if (customer_name)
@@ -133,7 +133,7 @@ const SearchCustomer = async (req, res) => {
       .populate({ path: "location", select: "location" })
       .exec();
 
-    console.log(customers);
+    // console.log(customers);
 
     if (customers.length === 0) {
       return res.status(204).json({ error: "No customers found" });

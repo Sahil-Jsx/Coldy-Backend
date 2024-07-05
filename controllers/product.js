@@ -75,14 +75,14 @@ const DeleteProduct = async (req, res) => {
 const SearchProduct = async (req, res) => {
   try {
     const { product_name } = req.query;
-    console.log(req.query);
+    // console.log(req.query);
 
     const query = {};
     if (product_name)
       query.product_name = { $regex: new RegExp(product_name, "i") };
 
     let product = await ProductSchema.find(query);
-    console.log(product);
+    // console.log(product);
 
     if (product.length === 0) {
       return res.status(204).json({ error: "No Products found" });

@@ -3,7 +3,7 @@ const SECRET_KEY = process.env.SECRET_KEY;
 const UserSchema = require("../models/users");
 const Authenticate = async (req, res) => {
   try {
-    console.log(req.body);
+    // console.log(req.body);
 
     const { username, password } = req.body;
 
@@ -14,7 +14,7 @@ const Authenticate = async (req, res) => {
     }
 
     const user = await UserSchema.findOne({ username, password });
-    console.log(user);
+    // console.log(user);
     if (user) {
       const token = jwt.sign(
         { id: user._id, username: user.username },
