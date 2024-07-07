@@ -6,9 +6,11 @@ const app = express();
 app.use(cors());
 const PORT = process.env.PORT;
 
+console.log(process.env.MONGODB_CONNECT_URI);
+
 //connection to database
 mongoose
-  .connect("mongodb://localhost:27017/coldy", {
+  .connect(process.env.MONGODB_CONNECT_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
