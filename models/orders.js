@@ -10,6 +10,9 @@ const OrdersSchema = new mongoose.Schema({
     ref: "customers",
     required: true,
   },
+  order_date: {
+    type: Date,
+  },
   status: {
     type: Number,
     required: true,

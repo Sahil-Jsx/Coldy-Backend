@@ -23,7 +23,6 @@ const GenerateOrderNo = async (req, res) => {
 };
 
 const AddOrder = async (req, res) => {
-
   try {
     const {
       customer_id,
@@ -34,6 +33,9 @@ const AddOrder = async (req, res) => {
       pending,
     } = req.body;
 
+    const order_date = new Date().toISOString();
+    console.log(order_date.split("T")[0]);
+
     if (customer_id && order_details) {
       const order = new OrdersSchema({
         customer_id: customer_id,
@@ -41,6 +43,7 @@ const AddOrder = async (req, res) => {
         order_no: order_no,
         total_amount: total_amount,
         status: status,
+        order_date: order_date.split("T")[0],
         pending: pending,
       });
 
