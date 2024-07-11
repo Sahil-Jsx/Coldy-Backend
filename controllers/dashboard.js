@@ -34,6 +34,7 @@ const getDashboardDetails = async (req, res) => {
     today_pending: total_amounts.pending
   };
   
+  console.log(dashboard);
   res.json(dashboard);
 };
 
