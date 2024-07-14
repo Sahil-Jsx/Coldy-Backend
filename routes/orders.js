@@ -9,9 +9,11 @@ const {
   updateOrderById,
   getOrderById,
   deleteOrder,
+  getPendingOrdersOfCustomer,
 } = require("../controllers/orders");
 
 router.get("/", getOrders);
+router.get("/pending", getPendingOrdersOfCustomer);
 router.patch("/:id", updateOrderById);
 router.get("/:id", getOrderById);
 router.post("/", AddOrder);

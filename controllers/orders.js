@@ -1,4 +1,6 @@
 const OrdersSchema = require("../models/orders");
+const CustomerSchema = require("../models/customer");
+const { model } = require("mongoose");
 
 const GenerateOrderNo = async (req, res) => {
   // console.log(req.body);
@@ -131,6 +133,60 @@ const deleteOrder = async (req, res) => {
   }
 };
 
+const getPendingOrdersOfCustomer = async (req, res) => {
+  try {
+    const customers = await CustomerSchema.aggregate([
+      {
+        $lookup: {
+          from: "orders",
+          localField: "_id",
+          foreignField: "customer_id",
+          as: "orders",
+        },
+      },
+      {
+        $addFields: {
+          pending_orders: {
+            $filter: {
+              input: "$orders",
+              as: "order",
+              cond: {
+                $eq: ["$$order.status", 0],
+              },
+            },
+          },
+        },
+      },
+      {
+        $match: {
+          "pending_orders.0": { $exists: true },
+        },
+      },
+      {
+        $lookup: {
+          from: "locations",
+          localField: "location",
+          foreignField: "_id",
+          as: "location",
+        },
+      },
+      {
+        $addFields: {
+          location: { $arrayElemAt: ["$location.location", 0] },
+        },
+      },
+      {
+        $project: {
+          orders: 0,
+        },
+      },
+    ]);
+    res.status(200).json(customers);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   GenerateOrderNo,
   AddOrder,
@@ -138,4 +194,5 @@ module.exports = {
   getOrderById,
   getOrders,
   deleteOrder,
+  getPendingOrdersOfCustomer,
 };
