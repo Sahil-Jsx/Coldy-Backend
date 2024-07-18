@@ -1,6 +1,5 @@
 const OrdersSchema = require("../models/orders");
 const CustomerSchema = require("../models/customer");
-const { model } = require("mongoose");
 
 const GenerateOrderNo = async (req, res) => {
   // console.log(req.body);
@@ -61,11 +60,11 @@ const AddOrder = async (req, res) => {
 
 const getOrders = async (req, res) => {
   try {
-    const orders = await OrdersSchema.find({}) // Project desired keys
+    const orders = await OrdersSchema.find({})
       .populate({
         path: "customer_id",
-        // select: "customer_name",
       })
+      .sort({ order_date: -1 })
       .exec();
 
     res.status(200).json(orders);
