@@ -39,5 +39,5 @@ app.use("/api/dashboard", DashboardRoute);
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
-  console.log("It's Live !");
+  console.log("It's Live Now !");
 });
