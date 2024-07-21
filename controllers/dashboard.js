@@ -1,5 +1,6 @@
 const OrderSchema = require("../models/orders");
 const moment = require("moment");
+
 const getDashboardDetails = async (req, res) => {
   try {
     const orders = await OrderSchema.find({});
@@ -29,6 +30,8 @@ const getDashboardDetails = async (req, res) => {
     );
 
     // Step 3: Calculate weekly revenue and pending amounts
+    const startOfWeek = moment().startOf("week").toDate();
+
     const weekDays = [
       "Sunday",
       "Monday",
@@ -51,11 +54,12 @@ const getDashboardDetails = async (req, res) => {
 
     orders.forEach((order) => {
       const orderDate = moment(order.order_date);
-      const dayName = weekDays[orderDate.day()];
-
-      // Calculate total amount and pending amount for the day
-      weekData[dayName].total_revenue += order.total_amount;
-      weekData[dayName].total_pending += order.pending;
+      if (orderDate.isSameOrAfter(startOfWeek)) {
+        const dayName = weekDays[orderDate.day()];
+        // Calculate total amount and pending amount for the day
+        weekData[dayName].total_revenue += order.total_amount;
+        weekData[dayName].total_pending += order.pending;
+      }
     });
 
     // Step 4: Return the results
